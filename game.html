@@ -3,442 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>조태익 | AI & Full-Stack Engineer</title>
+    <title>MZ력 기반 MBTI 테스트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-main: #f8f9fa;
-            --bg-card: #ffffff;
-            --primary: #4361ee;
-            --secondary: #7209b7;
-            --text-dark: #212529;
-            --text-gray: #6c757d;
-            --accent-light: rgba(67, 97, 238, 0.1);
-            --border-soft: #f1f3f5;
-            --nav-bg: rgba(255, 255, 255, 0.8);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
-            background-color: var(--bg-main);
-            color: var(--text-dark);
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            line-height: 1.7;
-            overflow-x: hidden;
-            padding-top: 70px; /* 네비바 높이만큼 여백 */
+            font-family: 'Pretendard', sans-serif;
+            background-color: #f3f4f6;
         }
-
-        /* 상단 메뉴바 (Navigation Bar) */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .progress-bar {
+            transition: width 0.3s ease-in-out;
+        }
+        /* 메뉴바 하단 그림자 및 고정 스타일 */
         nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 70px;
-            background-color: var(--nav-bg);
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-soft);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .nav-container {
-            width: 100%;
-            max-width: 960px;
-            padding: 0 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-weight: 800;
-            font-size: 1.2rem;
-            color: var(--text-dark);
-            text-decoration: none;
-            letter-spacing: -0.02em;
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 32px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 24px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-gray);
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        /* 외부 링크 버튼 스타일 */
-        .btn-external {
-            padding: 8px 20px;
-            background-color: var(--primary);
-            color: white !important;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
-        }
-
-        .btn-external:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(67, 97, 238, 0.3);
-            background-color: #3651d1;
-        }
-
-        .container {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 80px 24px;
-        }
-
-        /* 헤더 디자인 */
-        header {
-            margin-bottom: 120px;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 6px 16px;
-            background: var(--accent-light);
-            color: var(--primary);
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 24px;
-        }
-
-        h1 {
-            font-size: clamp(2.2rem, 6vw, 3.5rem);
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            line-height: 1.2;
-            margin-bottom: 30px;
-            color: #1a1a1a;
-        }
-
-        .intro-desc {
-            font-size: 1.25rem;
-            color: var(--text-gray);
-            max-width: 700px;
-        }
-
-        /* 섹션 공통 스타일 */
-        section {
-            margin-bottom: 120px;
-            scroll-margin-top: 100px; 
-        }
-
-        h2 {
-            font-size: 1.6rem;
-            font-weight: 700;
-            margin-bottom: 40px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        h2::before {
-            content: '';
-            width: 4px;
-            height: 24px;
-            background: linear-gradient(to bottom, var(--primary), var(--secondary));
-            border-radius: 2px;
-        }
-
-        /* 그리드 및 카드 */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 24px;
-        }
-
-        .card {
-            background: var(--bg-card);
-            border-radius: 24px;
-            padding: 40px;
-            border: 1px solid var(--border-soft);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(67, 97, 238, 0.08);
-            border-color: rgba(67, 97, 238, 0.2);
-        }
-
-        .card h3 {
-            font-size: 1.35rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-
-        .card p {
-            color: var(--text-gray);
-            font-size: 1rem;
-            margin-bottom: 24px;
-        }
-
-        /* 태그 */
-        .tag-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .tag {
-            background: #f1f3f5;
-            color: #495057;
-            padding: 4px 12px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        /* 논문 아이템 */
-        .paper-item {
-            background: var(--bg-card);
-            padding: 30px;
-            border-radius: 20px;
-            margin-bottom: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid var(--border-soft);
-            transition: 0.3s;
-        }
-
-        .paper-item:hover {
-            border-color: var(--primary);
-            background: #fafbff;
-        }
-
-        .paper-info h3 {
-            font-size: 1.1rem;
-            margin-bottom: 4px;
-        }
-
-        .paper-meta {
-            font-size: 0.9rem;
-            color: var(--text-gray);
-        }
-
-        /* 연락처 */
-        .contact-section {
-            background: linear-gradient(135deg, #4361ee 0%, #7209b7 100%);
-            border-radius: 32px;
-            padding: 60px 40px;
-            text-align: center;
-            color: white;
-            margin-top: 60px;
-        }
-
-        .contact-section h2 {
-            color: white;
-            justify-content: center;
-        }
-        
-        .contact-section h2::before { background: white; }
-
-        .email-link {
-            display: inline-block;
-            margin-top: 24px;
-            padding: 16px 40px;
-            background: white;
-            color: var(--primary);
-            text-decoration: none;
-            border-radius: 16px;
-            font-weight: 700;
-            transition: 0.3s;
-        }
-
-        .email-link:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-        }
-
-        footer {
-            text-align: center;
-            padding: 60px 0;
-            color: var(--text-gray);
-            font-size: 0.9rem;
-        }
-
-        /* 애니메이션 효과 */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        @media (max-width: 768px) {
-            .nav-right { gap: 16px; }
-            .nav-links { display: none; } /* 모바일에서 메뉴 숨김 (간결함 유지) */
-            .container { padding: 40px 20px; }
-            h1 { font-size: 2.1rem; }
-            .card { padding: 30px; }
-            .paper-item { flex-direction: column; align-items: flex-start; gap: 12px; }
+            background-color: rgba(255, 255, 255, 0.8);
         }
     </style>
 </head>
-<body>
+<body class="flex flex-col items-center min-h-screen">
 
-    <!-- 상단 네비게이션 메뉴바 -->
-    <nav>
-        <div class="nav-container">
-            <a href="#" class="logo">JO TAEIK</a>
-            <div class="nav-right">
-                <ul class="nav-links">
-                    <li><a href="#skills">Skills</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#research">Research</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-                <!-- 외부 링크 버튼: href 안에 원하는 주소를 넣으세요 -->
-                <a href="https://jotaeik.github.io/portfolio/game.html" target="_blank" class="btn-external">Blog / Github</a>
-            </div>
+    <!-- Navbar -->
+    <nav class="w-full h-16 fixed top-0 left-0 z-50 border-b border-gray-100 flex items-center justify-between px-6">
+        <div class="flex items-center gap-2 cursor-pointer" onclick="location.reload()">
+            <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">M</div>
+            <span class="font-bold text-gray-800 text-lg hidden sm:block tracking-tight">MZ-Lab</span>
+        </div>
+        <div class="flex items-center gap-6">
+            <a href="#" class="text-sm font-medium text-gray-600 hover:text-purple-600 transition-colors">홈</a>
+            <a href="#" class="text-sm font-medium text-gray-600 hover:text-purple-600 transition-colors">인기 테스트</a>
+            <a href="#" class="text-sm font-medium text-gray-600 hover:text-purple-600 transition-colors">커뮤니티</a>
         </div>
     </nav>
 
-    <div class="container">
-        <!-- 메인 헤더 -->
-        <header class="reveal">
-            <span class="badge">AI Convergence Specialist</span>
-            <h1>더 나은 내일을 만드는<br>엔지니어 조태익입니다.</h1>
-            <p class="intro-desc">
-                컴퓨터 공학 및 AI 융합 전공을 통해 다져진 탄탄한 이론을 바탕으로, 
-                실제 사용자가 감동할 수 있는 풀스택 웹 서비스를 구현합니다.
-            </p>
-        </header>
+    <!-- Main Content (Padding top to account for fixed navbar) -->
+    <div class="flex flex-col items-center justify-center flex-grow w-full pt-20 pb-10 px-4">
+        
+        <!-- Main Container -->
+        <div id="game-container" class="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8 overflow-hidden relative">
+            
+            <!-- Start Screen -->
+            <div id="start-screen" class="text-center fade-in">
+                <div class="mb-6">
+                    <span class="inline-block bg-purple-100 text-purple-600 px-4 py-1 rounded-full text-sm font-bold mb-2">요즘 애들 테스트</span>
+                    <h1 class="text-3xl font-extrabold text-gray-800 leading-tight">나의 MZ 성향으로 본<br><span class="text-purple-600">진짜 MBTI는?</span></h1>
+                </div>
+                <p class="text-gray-500 mb-8">당신의 갓생 지수와 갓반인 지수를 확인해보세요.</p>
+                <button onclick="startTest()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 rounded-2xl transition-all transform hover:scale-105 active:scale-95 shadow-lg">
+                    테스트 시작하기
+                </button>
+                <p class="text-xs text-gray-400 mt-6 italic">"어쩔티비? 저쩔티비? 쿠쿠루삥뽕"</p>
+            </div>
 
-        <!-- 핵심 역량 -->
-        <section id="skills" class="reveal">
-            <h2>Core Expertise</h2>
-            <div class="grid">
-                <div class="card">
-                    <h3>Artificial Intelligence</h3>
-                    <p>데이터의 흐름을 이해하고, 효율적인 AI 모델을 설계하여 서비스에 녹여냅니다.</p>
-                    <div class="tag-list">
-                        <span class="tag">PyTorch</span>
-                        <span class="tag">TensorFlow</span>
-                        <span class="tag">Scikit-learn</span>
+            <!-- Question Screen -->
+            <div id="question-screen" class="hidden fade-in">
+                <div class="mb-4 flex justify-between items-center text-sm font-medium text-gray-400">
+                    <span id="question-number">1 / 12</span>
+                    <div class="w-2/3 bg-gray-200 h-2 rounded-full overflow-hidden">
+                        <div id="progress" class="progress-bar bg-purple-500 h-full" style="width: 8.33%"></div>
                     </div>
                 </div>
-                <div class="card">
-                    <h3>Full-Stack Dev</h3>
-                    <p>프론트엔드부터 백엔드까지, 유연한 아키텍처를 바탕으로 견고한 서비스를 구축합니다.</p>
-                    <div class="tag-list">
-                        <span class="tag">React</span>
-                        <span class="tag">FastAPI</span>
-                        <span class="tag">PostgreSQL</span>
+                <h2 id="question-text" class="text-xl font-bold text-gray-800 mb-8 min-h-[4rem]"></h2>
+                <div id="options" class="space-y-4">
+                    <!-- Buttons will be injected here -->
+                </div>
+            </div>
+
+            <!-- Result Screen -->
+            <div id="result-screen" class="hidden fade-in text-center">
+                <div class="mb-4">
+                    <span class="text-gray-500 text-sm">당신의 결과는...</span>
+                    <h2 id="result-title" class="text-4xl font-extrabold text-purple-600 mt-2"></h2>
+                </div>
+                <div id="result-image" class="w-48 h-48 mx-auto mb-6 bg-purple-50 rounded-full flex items-center justify-center text-6xl">
+                    <!-- Emoji icon will go here -->
+                </div>
+                <div class="bg-gray-50 p-6 rounded-2xl mb-6 text-left">
+                    <p id="result-desc" class="text-gray-700 leading-relaxed"></p>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="bg-blue-50 p-3 rounded-xl">
+                        <span class="text-xs text-blue-400 block mb-1">환상의 짝꿍</span>
+                        <span id="match-good" class="font-bold text-blue-700"></span>
+                    </div>
+                    <div class="bg-red-50 p-3 rounded-xl">
+                        <span class="text-xs text-red-400 block mb-1">환장의 짝꿍</span>
+                        <span id="match-bad" class="font-bold text-red-700"></span>
                     </div>
                 </div>
+                <button onclick="location.reload()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-2xl hover:bg-black transition-colors shadow-md">
+                    다시 테스트하기
+                </button>
             </div>
-        </section>
 
-        <!-- 프로젝트 -->
-        <section id="projects" class="reveal">
-            <h2>Featured Projects</h2>
-            <div class="grid">
-                <div class="card">
-                    <h3>AI-Powered Analytics</h3>
-                    <p>비정형 데이터를 분석하여 인사이트를 도출하는 대시보드 시스템을 구축했습니다.</p>
-                    <div class="tag-list">
-                        <span class="tag">Team Project</span>
-                        <span class="tag">Real-time Data</span>
-                    </div>
-                </div>
-                <div class="card">
-                    <h3>Smart Inventory Web</h3>
-                    <p>객체 인식 기술을 활용한 지능형 재고 관리 풀스택 웹 애플리케이션입니다.</p>
-                    <div class="tag-list">
-                        <span class="tag">Full-Stack</span>
-                        <span class="tag">Computer Vision</span>
-                    </div>
-                </div>
+            <!-- Loading Screen -->
+            <div id="loading-screen" class="hidden absolute inset-0 bg-white flex flex-col items-center justify-center z-10">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mb-4"></div>
+                <p class="text-gray-600 font-bold">당신의 MZ력을 분석 중...</p>
             </div>
-        </section>
 
-        <!-- 논문 및 연구 -->
-        <section id="research" class="reveal">
-            <h2>Research & Papers</h2>
-            <div class="paper-item">
-                <div class="paper-info">
-                    <h3>Deep Learning for Predictive Modeling</h3>
-                    <p class="paper-meta">제 1저자 | 2023 국제 AI 컨퍼런스 발표</p>
-                </div>
-                <div class="tag">Research</div>
-            </div>
-            <div class="paper-item">
-                <div class="paper-info">
-                    <h3>A Study on Full-Stack Scalability</h3>
-                    <p class="paper-meta">공동 저자 | 학과 우수 논문상 수상</p>
-                </div>
-                <div class="tag">Thesis</div>
-            </div>
-        </section>
-
-        <!-- 컨택트 섹션 -->
-        <section id="contact" class="reveal">
-            <div class="contact-section">
-                <h2>함께 성장할 파트너를 찾으시나요?</h2>
-                <p>언제든 커피챗이나 협업 제안을 환영합니다.</p>
-                <a href="mailto:your@email.com" class="email-link">Email Me Now</a>
-            </div>
-        </section>
-
-        <footer>
-            &copy; 2026 Jo Tae-ik. All rights reserved.
-        </footer>
+        </div>
     </div>
 
     <script>
-        const observerOptions = {
-            threshold: 0.1
+        const questions = [
+            {
+                q: "상사가 퇴근 후 단톡방에 '오늘 다들 수고했어~'라고 보냈을 때 나의 반응은?",
+                a: [{ text: "읽씹하거나 하트 이모지만 하나 누른다.", type: "I" }, { text: "감사합니다! 등등 정성껏 답장한다.", type: "E" }]
+            },
+            {
+                q: "친구와 약속을 잡을 때 나는?",
+                a: [{ text: "당일 급만남이 최고다. '뭐해? 나와'가 좋다.", type: "P" }, { text: "최소 3일 전에는 약속이 잡혀있어야 마음이 편하다.", type: "J" }]
+            },
+            {
+                q: "친구가 '나 요즘 너무 힘들어서 붕어빵 사먹었어'라고 한다면?",
+                a: [{ text: "무슨 맛 먹었어? 슈붕? 팥붕?", type: "S" }, { text: "왜 힘들어? 무슨 일 있었어? ㅠㅠ", type: "F" }]
+            },
+            {
+                q: "새로운 숏폼 챌린지가 유행한다면?",
+                a: [{ text: "이미 속으로 춤 다 외웠고 혼자 찍어본다.", type: "E" }, { text: "구경만 해도 기 빨린다. 남들 하는 거 본다.", type: "I" }]
+            },
+            {
+                q: "여행 계획을 세울 때 나의 모습은?",
+                a: [{ text: "구글 맵에 가고 싶은 곳 다 찍고 시간 단위로 짠다.", type: "J" }, { text: "비행기 표만 있으면 어디든 갈 수 있어.", type: "P" }]
+            },
+            {
+                q: "길 가다가 이상형을 발견했다면?",
+                a: [{ text: "에어드랍으로 연락처를 남기거나 말을 건다.", type: "N" }, { text: "망상만 하다가 집에 와서 이불 찬다.", type: "S" }]
+            },
+            {
+                q: "자기 전 침대에서 유튜브/인스타를 할 때?",
+                a: [{ text: "정보성 영상이나 뉴스 등을 본다.", type: "T" }, { text: "감성 브이로그나 힐링 영상을 본다.", type: "F" }]
+            },
+            {
+                q: "친구가 주식을 시작했다고 한다면?",
+                a: [{ text: "어떤 종목 샀어? 수익률은?", type: "T" }, { text: "돈 잃으면 어떡해? 조심해서 해!", type: "F" }]
+            }
+        ];
+
+        const results = {
+            "ENTP": { title: "힙한 아이디어 뱅크", emoji: "😎", desc: "남들이 예 할 때 아니오를 외치는 프로 반항아. 하지만 실력은 확실해서 아무도 무시 못함. 폼 미쳤다!", good: "ISFJ", bad: "ESFJ" },
+            "INFJ": { title: "겉차속따 도를 아십니까", emoji: "🔮", desc: "신비주의 그 자체. 속으로는 온갖 망상을 다 하지만 겉으로는 조용히 세상의 트렌드를 읽고 있음. 가끔 팩폭 날리면 무서움.", good: "ENFP", bad: "ESTP" },
+            "ENFP": { title: "인간 탕후루 달디달다", emoji: "🍭", desc: "세상 모든 게 신나고 재밌는 리액션 기계. 금사빠 기질이 다분하며 에너지가 넘침. 하지만 가끔 혼자 있고 싶을 때 급격히 우울해짐.", good: "INFJ", bad: "ISTJ" },
+            "ISTP": { title: "무소유 프로 귀차니스트", emoji: "🛹", desc: "만사가 귀찮지만 효율은 최고. 어쩔티비의 창시자 같은 느낌. 효율적이지 않은 일엔 절대로 몸을 움직이지 않음.", good: "ESFJ", bad: "ENFP" },
+            "ESTJ": { title: "갓생 사는 워커홀릭", emoji: "💼", desc: "계획 없이는 숨도 못 쉼. 갓생 사는 법 강의해도 될 수준. 주변 사람들까지 갓생 살게 만드는 마법의 채찍질 전문가.", good: "INTP", bad: "INFP" },
+            "ISFP": { title: "침대 위 예술가", emoji: "🎨", desc: "누워있는 게 세상에서 제일 행복함. 하지만 한 번 꽂히면 감성 뿜뿜하는 예술가 기질이 나옴. 착한데 고집은 은근히 셈.", good: "ENTJ", bad: "ESTJ" },
+            "DEFAULT": { title: "프로 갓반인", emoji: "✨", desc: "MZ와 꼰대 사이 그 어딘가에서 완벽한 밸런스를 유지하는 사람. 무난해 보이지만 사실은 가장 무서운 실력자!", good: "모든 사람", bad: "꼰대" }
         };
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, observerOptions);
+        let currentQuestion = 0;
+        let score = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
 
-        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+        function startTest() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('question-screen').classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('question-number').innerText = `${currentQuestion + 1} / ${questions.length}`;
+            document.getElementById('question-text').innerText = q.q;
+            document.getElementById('progress').style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
+            
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+            q.a.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = "w-full text-left bg-white border-2 border-gray-100 hover:border-purple-500 hover:bg-purple-50 p-5 rounded-2xl transition-all font-medium text-gray-700 shadow-sm";
+                button.innerText = option.text;
+                button.onclick = () => nextQuestion(option.type);
+                optionsDiv.appendChild(button);
+            });
+        }
+
+        function nextQuestion(type) {
+            score[type]++;
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('question-screen').classList.add('hidden');
+            document.getElementById('loading-screen').classList.remove('hidden');
+
+            let mbti = "";
+            mbti += (score.E >= score.I) ? "E" : "I";
+            mbti += (score.S >= score.N) ? "S" : "N";
+            mbti += (score.T >= score.F) ? "T" : "F";
+            mbti += (score.J >= score.P) ? "J" : "P";
+
+            setTimeout(() => {
+                document.getElementById('loading-screen').classList.add('hidden');
+                document.getElementById('result-screen').classList.remove('hidden');
+                
+                const result = results[mbti] || results["DEFAULT"];
+                document.getElementById('result-title').innerText = result.title;
+                document.getElementById('result-image').innerText = result.emoji;
+                document.getElementById('result-desc').innerText = result.desc;
+                document.getElementById('match-good').innerText = result.good;
+                document.getElementById('match-bad').innerText = result.bad;
+            }, 1500);
+        }
     </script>
 </body>
 </html>
