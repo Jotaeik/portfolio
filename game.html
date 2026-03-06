@@ -21,73 +21,95 @@
         .progress-bar {
             transition: width 0.3s ease-in-out;
         }
+        /* 메뉴바 하단 그림자 및 고정 스타일 */
+        nav {
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.8);
+        }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen p-4">
+<body class="flex flex-col items-center min-h-screen">
 
-    <!-- Main Container -->
-    <div id="game-container" class="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8 overflow-hidden relative">
+    <!-- Navbar -->
+    <nav class="w-full h-16 fixed top-0 left-0 z-50 border-b border-gray-100 flex items-center justify-between px-6">
+        <div class="flex items-center gap-2 cursor-pointer" onclick="location.reload()">
+            <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">M</div>
+            <span class="font-bold text-gray-800 text-lg hidden sm:block tracking-tight">MZ-Lab</span>
+        </div>
+        <div class="flex items-center gap-6">
+            <a href="#" class="text-sm font-medium text-gray-600 hover:text-purple-600 transition-colors">홈</a>
+            <a href="#" class="text-sm font-medium text-gray-600 hover:text-purple-600 transition-colors">인기 테스트</a>
+            <a href="#" class="text-sm font-medium text-gray-600 hover:text-purple-600 transition-colors">커뮤니티</a>
+        </div>
+    </nav>
+
+    <!-- Main Content (Padding top to account for fixed navbar) -->
+    <div class="flex flex-col items-center justify-center flex-grow w-full pt-20 pb-10 px-4">
         
-        <!-- Start Screen -->
-        <div id="start-screen" class="text-center fade-in">
-            <div class="mb-6">
-                <span class="inline-block bg-purple-100 text-purple-600 px-4 py-1 rounded-full text-sm font-bold mb-2">요즘 애들 테스트</span>
-                <h1 class="text-3xl font-extrabold text-gray-800 leading-tight">나의 MZ 성향으로 본<br><span class="text-purple-600">진짜 MBTI는?</span></h1>
+        <!-- Main Container -->
+        <div id="game-container" class="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8 overflow-hidden relative">
+            
+            <!-- Start Screen -->
+            <div id="start-screen" class="text-center fade-in">
+                <div class="mb-6">
+                    <span class="inline-block bg-purple-100 text-purple-600 px-4 py-1 rounded-full text-sm font-bold mb-2">요즘 애들 테스트</span>
+                    <h1 class="text-3xl font-extrabold text-gray-800 leading-tight">나의 MZ 성향으로 본<br><span class="text-purple-600">진짜 MBTI는?</span></h1>
+                </div>
+                <p class="text-gray-500 mb-8">당신의 갓생 지수와 갓반인 지수를 확인해보세요.</p>
+                <button onclick="startTest()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 rounded-2xl transition-all transform hover:scale-105 active:scale-95 shadow-lg">
+                    테스트 시작하기
+                </button>
+                <p class="text-xs text-gray-400 mt-6 italic">"어쩔티비? 저쩔티비? 쿠쿠루삥뽕"</p>
             </div>
-            <p class="text-gray-500 mb-8">당신의 갓생 지수와 갓반인 지수를 확인해보세요.</p>
-            <button onclick="startTest()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 rounded-2xl transition-all transform hover:scale-105 active:scale-95 shadow-lg">
-                테스트 시작하기
-            </button>
-            <p class="text-xs text-gray-400 mt-6 italic">"어쩔티비? 저쩔티비? 쿠쿠루삥뽕"</p>
-        </div>
 
-        <!-- Question Screen -->
-        <div id="question-screen" class="hidden fade-in">
-            <div class="mb-4 flex justify-between items-center text-sm font-medium text-gray-400">
-                <span id="question-number">1 / 12</span>
-                <div class="w-2/3 bg-gray-200 h-2 rounded-full overflow-hidden">
-                    <div id="progress" class="progress-bar bg-purple-500 h-full" style="width: 8.33%"></div>
+            <!-- Question Screen -->
+            <div id="question-screen" class="hidden fade-in">
+                <div class="mb-4 flex justify-between items-center text-sm font-medium text-gray-400">
+                    <span id="question-number">1 / 12</span>
+                    <div class="w-2/3 bg-gray-200 h-2 rounded-full overflow-hidden">
+                        <div id="progress" class="progress-bar bg-purple-500 h-full" style="width: 8.33%"></div>
+                    </div>
+                </div>
+                <h2 id="question-text" class="text-xl font-bold text-gray-800 mb-8 min-h-[4rem]"></h2>
+                <div id="options" class="space-y-4">
+                    <!-- Buttons will be injected here -->
                 </div>
             </div>
-            <h2 id="question-text" class="text-xl font-bold text-gray-800 mb-8 min-h-[4rem]"></h2>
-            <div id="options" class="space-y-4">
-                <!-- Buttons will be injected here -->
-            </div>
-        </div>
 
-        <!-- Result Screen -->
-        <div id="result-screen" class="hidden fade-in text-center">
-            <div class="mb-4">
-                <span class="text-gray-500 text-sm">당신의 결과는...</span>
-                <h2 id="result-title" class="text-4xl font-extrabold text-purple-600 mt-2"></h2>
-            </div>
-            <div id="result-image" class="w-48 h-48 mx-auto mb-6 bg-purple-50 rounded-full flex items-center justify-center text-6xl">
-                <!-- Emoji icon will go here -->
-            </div>
-            <div class="bg-gray-50 p-6 rounded-2xl mb-6 text-left">
-                <p id="result-desc" class="text-gray-700 leading-relaxed"></p>
-            </div>
-            <div class="grid grid-cols-2 gap-4 mb-6">
-                <div class="bg-blue-50 p-3 rounded-xl">
-                    <span class="text-xs text-blue-400 block mb-1">환상의 짝꿍</span>
-                    <span id="match-good" class="font-bold text-blue-700"></span>
+            <!-- Result Screen -->
+            <div id="result-screen" class="hidden fade-in text-center">
+                <div class="mb-4">
+                    <span class="text-gray-500 text-sm">당신의 결과는...</span>
+                    <h2 id="result-title" class="text-4xl font-extrabold text-purple-600 mt-2"></h2>
                 </div>
-                <div class="bg-red-50 p-3 rounded-xl">
-                    <span class="text-xs text-red-400 block mb-1">환장의 짝꿍</span>
-                    <span id="match-bad" class="font-bold text-red-700"></span>
+                <div id="result-image" class="w-48 h-48 mx-auto mb-6 bg-purple-50 rounded-full flex items-center justify-center text-6xl">
+                    <!-- Emoji icon will go here -->
                 </div>
+                <div class="bg-gray-50 p-6 rounded-2xl mb-6 text-left">
+                    <p id="result-desc" class="text-gray-700 leading-relaxed"></p>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="bg-blue-50 p-3 rounded-xl">
+                        <span class="text-xs text-blue-400 block mb-1">환상의 짝꿍</span>
+                        <span id="match-good" class="font-bold text-blue-700"></span>
+                    </div>
+                    <div class="bg-red-50 p-3 rounded-xl">
+                        <span class="text-xs text-red-400 block mb-1">환장의 짝꿍</span>
+                        <span id="match-bad" class="font-bold text-red-700"></span>
+                    </div>
+                </div>
+                <button onclick="location.reload()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-2xl hover:bg-black transition-colors shadow-md">
+                    다시 테스트하기
+                </button>
             </div>
-            <button onclick="location.reload()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-2xl hover:bg-black transition-colors shadow-md">
-                다시 테스트하기
-            </button>
-        </div>
 
-        <!-- Loading Screen -->
-        <div id="loading-screen" class="hidden absolute inset-0 bg-white flex flex-col items-center justify-center z-10">
-            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mb-4"></div>
-            <p class="text-gray-600 font-bold">당신의 MZ력을 분석 중...</p>
-        </div>
+            <!-- Loading Screen -->
+            <div id="loading-screen" class="hidden absolute inset-0 bg-white flex flex-col items-center justify-center z-10">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mb-4"></div>
+                <p class="text-gray-600 font-bold">당신의 MZ력을 분석 중...</p>
+            </div>
 
+        </div>
     </div>
 
     <script>
@@ -133,7 +155,6 @@
             "ISTP": { title: "무소유 프로 귀차니스트", emoji: "🛹", desc: "만사가 귀찮지만 효율은 최고. 어쩔티비의 창시자 같은 느낌. 효율적이지 않은 일엔 절대로 몸을 움직이지 않음.", good: "ESFJ", bad: "ENFP" },
             "ESTJ": { title: "갓생 사는 워커홀릭", emoji: "💼", desc: "계획 없이는 숨도 못 쉼. 갓생 사는 법 강의해도 될 수준. 주변 사람들까지 갓생 살게 만드는 마법의 채찍질 전문가.", good: "INTP", bad: "INFP" },
             "ISFP": { title: "침대 위 예술가", emoji: "🎨", desc: "누워있는 게 세상에서 제일 행복함. 하지만 한 번 꽂히면 감성 뿜뿜하는 예술가 기질이 나옴. 착한데 고집은 은근히 셈.", good: "ENTJ", bad: "ESTJ" },
-            // Simplified logic: If result doesn't exist, provide a default MZ type
             "DEFAULT": { title: "프로 갓반인", emoji: "✨", desc: "MZ와 꼰대 사이 그 어딘가에서 완벽한 밸런스를 유지하는 사람. 무난해 보이지만 사실은 가장 무서운 실력자!", good: "모든 사람", bad: "꼰대" }
         };
 
@@ -177,7 +198,6 @@
             document.getElementById('question-screen').classList.add('hidden');
             document.getElementById('loading-screen').classList.remove('hidden');
 
-            // Calculate MBTI string
             let mbti = "";
             mbti += (score.E >= score.I) ? "E" : "I";
             mbti += (score.S >= score.N) ? "S" : "N";
