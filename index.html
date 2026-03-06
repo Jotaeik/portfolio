@@ -14,6 +14,7 @@
             --text-gray: #6c757d;
             --accent-light: rgba(67, 97, 238, 0.1);
             --border-soft: #f1f3f5;
+            --nav-bg: rgba(255, 255, 255, 0.8);
         }
 
         * {
@@ -32,12 +33,65 @@
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             line-height: 1.7;
             overflow-x: hidden;
+            padding-top: 70px; /* 네비바 높이만큼 여백 */
+        }
+
+        /* 상단 메뉴바 (Navigation Bar) */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background-color: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-soft);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            width: 100%;
+            max-width: 960px;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
         }
 
         .container {
             max-width: 960px;
             margin: 0 auto;
-            padding: 100px 24px;
+            padding: 80px 24px;
         }
 
         /* 헤더 디자인 */
@@ -57,7 +111,7 @@
         }
 
         h1 {
-            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            font-size: clamp(2.2rem, 6vw, 3.5rem);
             font-weight: 800;
             letter-spacing: -0.03em;
             line-height: 1.2;
@@ -73,7 +127,8 @@
 
         /* 섹션 공통 스타일 */
         section {
-            margin-bottom: 100px;
+            margin-bottom: 120px;
+            scroll-margin-top: 100px; /* 메뉴 이동 시 상단 여백 확보 */
         }
 
         h2 {
@@ -225,14 +280,29 @@
         }
 
         @media (max-width: 768px) {
-            .container { padding: 60px 20px; }
-            h1 { font-size: 2.2rem; }
+            .nav-links { gap: 12px; }
+            .nav-links a { font-size: 0.85rem; }
+            .container { padding: 40px 20px; }
+            h1 { font-size: 2.1rem; }
             .card { padding: 30px; }
             .paper-item { flex-direction: column; align-items: flex-start; gap: 12px; }
         }
     </style>
 </head>
 <body>
+
+    <!-- 상단 네비게이션 메뉴바 -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">JO TAEIK</a>
+            <ul class="nav-links">
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#research">Research</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
 
     <div class="container">
         <!-- 메인 헤더 -->
@@ -246,7 +316,7 @@
         </header>
 
         <!-- 핵심 역량 -->
-        <section class="reveal">
+        <section id="skills" class="reveal">
             <h2>Core Expertise</h2>
             <div class="grid">
                 <div class="card">
@@ -271,7 +341,7 @@
         </section>
 
         <!-- 프로젝트 -->
-        <section class="reveal">
+        <section id="projects" class="reveal">
             <h2>Featured Projects</h2>
             <div class="grid">
                 <div class="card">
@@ -294,7 +364,7 @@
         </section>
 
         <!-- 논문 및 연구 -->
-        <section class="reveal">
+        <section id="research" class="reveal">
             <h2>Research & Papers</h2>
             <div class="paper-item">
                 <div class="paper-info">
@@ -313,7 +383,7 @@
         </section>
 
         <!-- 컨택트 섹션 -->
-        <section class="reveal">
+        <section id="contact" class="reveal">
             <div class="contact-section">
                 <h2>함께 성장할 파트너를 찾으시나요?</h2>
                 <p>언제든 커피챗이나 협업 제안을 환영합니다.</p>
