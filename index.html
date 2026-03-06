@@ -3,240 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 융합 엔지니어 포트폴리오</title>
+    <title>조태익 | AI & Full-Stack Engineer</title>
     <style>
-        /* CSS 변수를 활용한 테마 설정 (라이트/다크 모드) */
         :root {
-            /* Light Theme (노션 기본 컬러) */
-            --bg-color: #ffffff;
-            --text-main: #37352f;
-            --text-muted: #787774;
-            --border-color: #e9e9e7;
-            --hover-bg: #efefed;
-            --callout-bg: #f1f1ef;
-            --tag-bg: #e3e2e0;
-            --tag-text: #32302c;
-            --link-color: #000000;
-        }
-
-        [data-theme="dark"] {
-            /* Dark Theme */
-            --bg-color: #191919;
-            --text-main: rgba(255, 255, 255, 0.81);
-            --text-muted: rgba(255, 255, 255, 0.5);
-            --border-color: #2f2f2f;
-            --hover-bg: #2c2c2c;
-            --callout-bg: #252525;
-            --tag-bg: #363636;
-            --tag-text: rgba(255, 255, 255, 0.81);
-            --link-color: #ffffff;
+            --bg-main: #f8f9fa;
+            --bg-card: #ffffff;
+            --primary: #4361ee;
+            --secondary: #7209b7;
+            --text-dark: #212529;
+            --text-gray: #6c757d;
+            --accent-light: rgba(67, 97, 238, 0.1);
+            --border-soft: #f1f3f5;
         }
 
         * {
             box-sizing: border-box;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-            word-break: keep-all;
+            background-color: var(--bg-main);
+            color: var(--text-dark);
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.7;
+            overflow-x: hidden;
         }
 
-        /* 상단 네비게이션바 (다크모드 버튼) */
-        .top-nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 12px 24px;
-            display: flex;
-            justify-content: flex-end;
-            background: transparent;
-            z-index: 100;
-        }
-
-        .theme-toggle {
-            background: none;
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            backdrop-filter: blur(5px);
-            background-color: var(--bg-color);
-        }
-        
-        .theme-toggle:hover {
-            background-color: var(--hover-bg);
-        }
-
-        /* 커버 이미지 영역 */
-        .cover {
-            height: 25vh;
-            min-height: 200px;
-            background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
-            width: 100%;
-            position: relative;
-        }
-
-        [data-theme="dark"] .cover {
-            background: linear-gradient(120deg, #2c3e50 0%, #3498db 100%);
-        }
-
-        /* 메인 컨텐츠 컨테이너 */
         .container {
-            max-width: 900px;
+            max-width: 960px;
             margin: 0 auto;
-            padding: 0 40px 80px 40px;
+            padding: 100px 24px;
+        }
+
+        /* 헤더 섹션 */
+        header {
+            text-align: left;
+            margin-bottom: 120px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: var(--accent-light);
+            color: var(--primary);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+            margin-bottom: 30px;
+            color: #1a1a1a;
+        }
+
+        .intro-desc {
+            font-size: 1.25rem;
+            color: var(--text-gray);
+            max-width: 700px;
+        }
+
+        /* 섹션 공통 */
+        section {
+            margin-bottom: 100px;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        /* 그리드 및 카드 디자인 */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid var(--border-soft);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             position: relative;
         }
 
-        h1.page-title {
-            font-size: 2.5rem;
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(67, 97, 238, 0.08);
+            border-color: rgba(67, 97, 238, 0.2);
+        }
+
+        .card h3 {
+            font-size: 1.35rem;
             font-weight: 700;
-            margin: 0 0 10px 0;
-            letter-spacing: -0.02em;
+            margin-bottom: 16px;
         }
 
-        /* 콜아웃 (노션 인용구/소개 박스) */
-        .callout {
-            display: flex;
-            padding: 16px;
-            background-color: var(--callout-bg);
-            border-radius: 4px;
-            margin: 20px 0;
-            align-items: flex-start;
+        .card p {
+            color: var(--text-gray);
+            font-size: 1rem;
+            margin-bottom: 24px;
         }
 
-        .callout-icon {
-            margin-right: 12px;
-            font-size: 1.2rem;
-        }
-
-        /* 구분선 */
-        hr {
-            border: none;
-            border-bottom: 1px solid var(--border-color);
-            margin: 30px 0;
-        }
-
-        /* 섹션 헤딩 */
-        h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-top: 40px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid transparent;
-        }
-
-        h3 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin: 0 0 8px 0;
-        }
-
-        /* 태그 (기술 스택) */
-        .tag-group {
+        /* 태그 */
+        .tag-list {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin-bottom: 15px;
         }
 
         .tag {
-            background-color: var(--tag-bg);
-            color: var(--tag-text);
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            white-space: nowrap;
+            background: #f1f3f5;
+            color: #495057;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
         }
 
-        /* 데이터베이스 리스트 형태 (프로젝트, 논문) */
-        .list-item {
-            padding: 16px;
-            border-radius: 6px;
-            margin-bottom: 12px;
-            display: flex;
-            flex-direction: column;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .list-item:hover {
-            background-color: var(--hover-bg);
-        }
-
-        .list-header {
+        /* 논문 섹션 리스트 */
+        .paper-item {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 16px;
             display: flex;
             justify-content: space-between;
-            align-items: baseline;
-            flex-wrap: wrap;
+            align-items: center;
+            border: 1px solid var(--border-soft);
+            transition: 0.3s;
         }
 
-        .date {
-            color: var(--text-muted);
+        .paper-item:hover {
+            border-color: var(--primary);
+            background: #fafbff;
+        }
+
+        .paper-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .paper-meta {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        /* 푸터 및 연락처 */
+        .contact-section {
+            background: linear-gradient(135deg, #4361ee 0%, #7209b7 100%);
+            border-radius: 32px;
+            padding: 60px 40px;
+            text-align: center;
+            color: white;
+        }
+
+        .contact-section h2 {
+            color: white;
+            justify-content: center;
+        }
+        
+        .contact-section h2::before { background: white; }
+
+        .email-link {
+            display: inline-block;
+            margin-top: 24px;
+            padding: 16px 40px;
+            background: white;
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 16px;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .email-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 0;
+            color: var(--text-gray);
             font-size: 0.9rem;
         }
 
-        /* 토글 리스트 (details, summary) */
-        details {
-            margin-top: 10px;
-        }
-
-        summary {
-            cursor: pointer;
-            font-weight: 500;
-            color: var(--text-main);
-            outline: none;
-            display: flex;
-            align-items: center;
-        }
-
-        summary::before {
-            content: '▶';
-            font-size: 0.6rem;
-            margin-right: 8px;
-            color: var(--text-muted);
-            transition: transform 0.2s ease;
-        }
-
-        details[open] summary::before {
-            transform: rotate(90deg);
-        }
-
-        /* 기본 summary 화살표 숨기기 */
-        summary::-webkit-details-marker { display: none; }
-        
-        .details-content {
-            padding: 10px 0 10px 20px;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            border-left: 2px solid var(--border-color);
-            margin-left: 5px;
-            margin-top: 8px;
-        }
-
-        .details-content ul {
-            margin: 0;
-            padding-left: 20px;
-        }
-
-        .details-content li {
-            margin-bottom: 6px;
-        }
-
-        /* 스크롤 애니메이션 클래스 */
+        /* 애니메이션 */
         .reveal {
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s ease-out;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
         }
 
         .reveal.active {
@@ -244,188 +221,119 @@
             transform: translateY(0);
         }
 
-        /* 반응형 */
-        @media (max-width: 600px) {
-            .container { padding: 0 20px 60px 20px; }
-            h1.page-title { font-size: 2rem; }
-            .list-header { flex-direction: column; }
-            .date { margin-top: 4px; }
+        @media (max-width: 768px) {
+            .container { padding: 60px 20px; }
+            h1 { font-size: 2.2rem; }
+            .card { padding: 30px; }
+            .paper-item { flex-direction: column; align-items: flex-start; gap: 12px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 상단 다크모드 토글 -->
-    <nav class="top-nav">
-        <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()">🌙 다크 모드</button>
-    </nav>
-
-    <!-- 커버 이미지 -->
-    <div class="cover"></div>
-
-    <!-- 메인 컨텐츠 -->
     <div class="container">
-        <!-- 프로필 헤더 -->
-        <h1 class="page-title">조태익 (AI & Full-Stack)</h1>
-        
-        <div class="callout reveal active">
-            <span class="callout-icon">💡</span>
-            <div>
-                <strong>컴퓨터 공학(AI 융합)을 전공한 주니어 개발자입니다.</strong><br>
-                웹을 통한 서비스 구현(HTML/CSS/JS/React)부터 백엔드, 그리고 AI 모델 연구 및 논문 작성까지 엔드투엔드(End-to-End) 파이프라인을 경험했습니다. 복잡한 문제를 단순하고 정갈한 코드로 풀어내는 것을 좋아합니다.
-            </div>
-        </div>
+        <!-- 메인 헤더 -->
+        <header class="reveal">
+            <span class="badge">AI Convergence Specialist</span>
+            <h1>더 나은 내일을 만드는<br>엔지니어 조태익입니다.</h1>
+            <p class="intro-desc">
+                컴퓨터 공학 및 AI 융합 전공을 통해 다져진 탄탄한 이론을 바탕으로, 
+                실제 사용자가 감동할 수 있는 풀스택 웹 서비스를 구현합니다.
+            </p>
+        </header>
 
-        <!-- 기술 스택 -->
-        <h2 class="reveal">🛠 스킬 (Skills)</h2>
-        <div class="reveal">
-            <h3>프론트엔드 & 백엔드</h3>
-            <div class="tag-group">
-                <span class="tag">HTML / CSS</span>
-                <span class="tag">JavaScript</span>
-                <span class="tag">React (기초)</span>
-                <span class="tag">Node.js</span>
-                <span class="tag">Python</span>
+        <!-- 핵심 역량 -->
+        <section class="reveal">
+            <h2>Core Expertise</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Artificial Intelligence</h3>
+                    <p>데이터의 흐름을 이해하고, 효율적인 AI 모델을 설계하여 서비스에 녹여냅니다.</p>
+                    <div class="tag-list">
+                        <span class="tag">PyTorch</span>
+                        <span class="tag">TensorFlow</span>
+                        <span class="tag">Scikit-learn</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Full-Stack Dev</h3>
+                    <p>프론트엔드부터 백엔드까지, 유연한 아키텍처를 바탕으로 견고한 서비스를 구축합니다.</p>
+                    <div class="tag-list">
+                        <span class="tag">React</span>
+                        <span class="tag">FastAPI</span>
+                        <span class="tag">PostgreSQL</span>
+                    </div>
+                </div>
             </div>
-            
-            <h3 style="margin-top: 15px;">AI & Data</h3>
-            <div class="tag-group">
-                <span class="tag">PyTorch</span>
-                <span class="tag">TensorFlow</span>
-                <span class="tag">Pandas / NumPy</span>
-            </div>
-        </div>
-
-        <hr>
+        </section>
 
         <!-- 프로젝트 -->
-        <h2 class="reveal">💻 프로젝트 (Projects)</h2>
-        
-        <!-- 프로젝트 1 -->
-        <div class="list-item reveal">
-            <div class="list-header">
-                <h3>AI 기반 시각 장애인용 보행 보조 웹 서비스</h3>
-                <span class="date">2023. 09 ~ 2023. 12</span>
-            </div>
-            <div class="tag-group" style="margin-top: 8px;">
-                <span class="tag">Full-Stack</span>
-                <span class="tag">React</span>
-                <span class="tag">FastAPI</span>
-                <span class="tag">Computer Vision</span>
-            </div>
-            <details>
-                <summary>프로젝트 상세 내용 보기</summary>
-                <div class="details-content">
-                    <ul>
-                        <li><strong>역할:</strong> 풀스택 개발 및 객체 인식 모델 연동 (4인 팀 프로젝트)</li>
-                        <li><strong>내용:</strong> 사용자의 카메라 뷰를 실시간으로 분석하여 위험 요소를 음성으로 안내하는 웹앱 개발</li>
-                        <li><strong>성과:</strong> 학과 졸업 프로젝트 우수상 수상. 실시간 스트리밍 지연 시간을 2초에서 0.5초로 단축.</li>
-                        <li><strong>GitHub:</strong> <a href="#" style="color: var(--link-color);">github.com/username/project1</a></li>
-                    </ul>
+        <section class="reveal">
+            <h2>Featured Projects</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>AI-Powered Analytics</h3>
+                    <p>비정형 데이터를 분석하여 인사이트를 도출하는 대시보드 시스템을 구축했습니다.</p>
+                    <div class="tag-list">
+                        <span class="tag">Team Project</span>
+                        <span class="tag">Real-time Data</span>
+                    </div>
                 </div>
-            </details>
-        </div>
-
-        <!-- 프로젝트 2 -->
-        <div class="list-item reveal">
-            <div class="list-header">
-                <h3>인터랙티브 개인 포트폴리오 웹페이지</h3>
-                <span class="date">2024. 02</span>
-            </div>
-            <div class="tag-group" style="margin-top: 8px;">
-                <span class="tag">Front-End</span>
-                <span class="tag">HTML/CSS/JS</span>
-            </div>
-            <details>
-                <summary>프로젝트 상세 내용 보기</summary>
-                <div class="details-content">
-                    <ul>
-                        <li><strong>역할:</strong> 1인 개발</li>
-                        <li><strong>내용:</strong> Notion 스타일의 UI/UX를 차용하여 순수 HTML/CSS/JS만으로 반응형 포트폴리오 구현</li>
-                        <li><strong>특징:</strong> 다크 모드 지원, 시맨틱 태그 활용, CSS 변수를 활용한 테마 시스템 구축</li>
-                    </ul>
+                <div class="card">
+                    <h3>Smart Inventory Web</h3>
+                    <p>객체 인식 기술을 활용한 지능형 재고 관리 풀스택 웹 애플리케이션입니다.</p>
+                    <div class="tag-list">
+                        <span class="tag">Full-Stack</span>
+                        <span class="tag">Computer Vision</span>
+                    </div>
                 </div>
-            </details>
-        </div>
-
-        <hr>
+            </div>
+        </section>
 
         <!-- 논문 및 연구 -->
-        <h2 class="reveal">📝 논문 및 연구 (Publications)</h2>
-        
-        <div class="list-item reveal">
-            <div class="list-header">
-                <h3>생성형 AI를 활용한 데이터 증강 기법 연구</h3>
-                <span class="date">2023 KCI 등재지 논문 게재</span>
-            </div>
-            <p style="margin: 8px 0 0 0; color: var(--text-muted); font-size: 0.95rem;">
-                데이터 불균형 문제를 해결하기 위해 GAN 및 Diffusion 모델을 활용하여 합성 데이터를 생성하고, 분류 모델의 성능을 12% 향상시킨 연구입니다. (제 1저자)
-            </p>
-            <details>
-                <summary>연구 요약 및 링크</summary>
-                <div class="details-content">
-                    <ul>
-                        <li><strong>사용 기술:</strong> PyTorch, Stable Diffusion, ResNet</li>
-                        <li><strong>기여도:</strong> 가설 수립, 모델 아키텍처 설계, 실험 및 논문 작성 전담</li>
-                        <li><strong>논문 링크:</strong> <a href="#" style="color: var(--link-color);">논문 PDF 보기</a></li>
-                    </ul>
+        <section class="reveal">
+            <h2>Research & Papers</h2>
+            <div class="paper-item">
+                <div class="paper-info">
+                    <h3>Deep Learning for Predictive Modeling</h3>
+                    <p class="paper-meta">제 1저자 | 2023 국제 AI 컨퍼런스 발표</p>
                 </div>
-            </details>
-        </div>
+                <div class="tag">Research</div>
+            </div>
+            <div class="paper-item">
+                <div class="paper-info">
+                    <h3>A Study on Full-Stack Scalability</h3>
+                    <p class="paper-meta">공동 저자 | 학과 우수 논문상 수상</p>
+                </div>
+                <div class="tag">Thesis</div>
+            </div>
+        </section>
 
-        <hr>
+        <!-- 컨택트 섹션 -->
+        <section class="reveal">
+            <div class="contact-section">
+                <h2>함께 성장할 파트너를 찾으시나요?</h2>
+                <p>언제든 커피챗이나 협업 제안을 환영합니다.</p>
+                <a href="mailto:your@email.com" class="email-link">Email Me Now</a>
+            </div>
+        </section>
 
-        <!-- 연락처 -->
-        <h2 class="reveal">📬 연락처 (Contact)</h2>
-        <div class="reveal" style="padding: 10px 16px;">
-            <p>언제든 편하게 연락 주세요!</p>
-            <ul style="color: var(--text-muted); padding-left: 20px;">
-                <li><strong>Email:</strong> dev.ai@example.com</li>
-                <li><strong>GitHub:</strong> <a href="#" style="color: var(--link-color);">github.com/your-username</a></li>
-                <li><strong>LinkedIn:</strong> <a href="#" style="color: var(--link-color);">linkedin.com/in/your-profile</a></li>
-            </ul>
-        </div>
+        <footer>
+            &copy; 2026 Jo Tae-ik. All rights reserved.
+        </footer>
     </div>
 
-    <!-- 기능 스크립트 -->
     <script>
-        // 1. 다크 모드 토글 기능
-        function toggleTheme() {
-            const body = document.body;
-            const btn = document.getElementById('theme-btn');
-            
-            if (body.getAttribute('data-theme') === 'dark') {
-                body.removeAttribute('data-theme');
-                btn.textContent = '🌙 다크 모드';
-            } else {
-                body.setAttribute('data-theme', 'dark');
-                btn.textContent = '☀️ 라이트 모드';
-            }
-        }
-
-        // 사용자의 시스템 테마 설정 감지하여 초기 적용 (선택 사항)
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.body.setAttribute('data-theme', 'dark');
-            document.getElementById('theme-btn').textContent = '☀️ 라이트 모드';
-        }
-
-        // 2. 스크롤 애니메이션 (요소가 화면에 보일 때 active 클래스 추가)
-        function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 50; // 요소가 50px 보일 때 실행
-
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add("active");
+        // 스크롤 시 순차적으로 나타나는 애니메이션
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
                 }
-            }
-        }
+            });
+        }, { threshold: 0.1 });
 
-        window.addEventListener("scroll", reveal);
-        // 페이지 로드 시 한 번 실행
-        reveal();
+        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
     </script>
 </body>
 </html>
