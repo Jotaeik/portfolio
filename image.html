@@ -19,7 +19,7 @@
             min-height: 100vh;
         }
 
-        /* 메뉴바 스타일 */
+        /* 메뉴바 스타일 수정: 메뉴를 맨 오른쪽으로 배치 */
         .navbar {
             position: fixed;
             top: 0;
@@ -28,7 +28,7 @@
             height: 60px;
             background-color: #ffffff;
             display: flex;
-            justify-content: space-between;
+            justify-content: space-between; /* 로고는 왼쪽, 메뉴는 오른쪽 끝으로 배치 */
             align-items: center;
             padding: 0 10%;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
@@ -47,7 +47,7 @@
 
         .navbar-menu {
             display: flex;
-            gap: 24px;
+            gap: 24px; /* 메뉴 항목 간 간격 */
             list-style: none;
             margin: 0;
             padding: 0;
@@ -175,7 +175,10 @@
 
 <nav class="navbar">
     <a href="#" class="navbar-logo">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></nav>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+        <span>AI Vision</span>
+    </a>
+    <!-- 메뉴가 맨 오른쪽으로 이동했습니다 -->
     <ul class="navbar-menu">
         <li><a href="https://jotaeik.github.io/portfolio/">홈</a></li>
         <li><a href="#">사용법</a></li>
@@ -205,7 +208,6 @@
     let model, webcam, labelContainer, maxPredictions;
 
     async function init() {
-        // 버튼 텍스트 변경 또는 로딩 표시
         const btn = document.querySelector('.btn-start');
         btn.innerText = "모델 로딩 중...";
         btn.disabled = true;
@@ -222,7 +224,7 @@
         await webcam.play();
         window.requestAnimationFrame(loop);
 
-        btn.style.display = "none"; // 시작 후 버튼 숨김
+        btn.style.display = "none";
         document.getElementById("webcam-container").appendChild(webcam.canvas);
         
         labelContainer = document.getElementById("label-container");
@@ -262,13 +264,12 @@
             const bar = item.querySelector(".progress-bar-fill");
             bar.style.width = percentage + "%";
             
-            // 확률에 따른 색상 변화 (강조)
             if (prob > 0.8) {
-                bar.style.backgroundColor = "#10b981"; // 성공적인 초록색
+                bar.style.backgroundColor = "#10b981";
             } else if (prob > 0.4) {
-                bar.style.backgroundColor = "#4a90e2"; // 기본 파란색
+                bar.style.backgroundColor = "#4a90e2";
             } else {
-                bar.style.backgroundColor = "#cbd5e1"; // 낮은 확률 회색
+                bar.style.backgroundColor = "#cbd5e1";
             }
         }
     }
