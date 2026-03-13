@@ -1,59 +1,278 @@
-<div>Teachable Machine Image Model</div>
-<button type="button" onclick="init()">Start</button>
-<div id="webcam-container"></div>
-<div id="label-container"></div>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 이미지 분류기</title>
+    <style>
+        /* 기본 스타일 및 폰트 */
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            padding-top: 80px; /* 메뉴바 높이만큼 여백 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* 메뉴바 스타일 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+
+        .navbar-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #4a90e2;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar-menu a {
+            text-decoration: none;
+            color: #64748b;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .navbar-menu a:hover {
+            color: #4a90e2;
+        }
+
+        /* 메인 카드 컨테이너 */
+        .card {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            text-align: center;
+            width: 90%;
+            max-width: 450px;
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: #1e293b;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        /* 웹캠 섹션 */
+        #webcam-container {
+            margin: 0 auto 20px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 6px solid #f1f5f9;
+            width: 200px;
+            height: 200px;
+            background-color: #f1f5f9;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        canvas {
+            border-radius: 12px;
+        }
+
+        /* 버튼 스타일 */
+        .btn-start {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .btn-start:hover {
+            background-color: #357abd;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(74, 144, 226, 0.4);
+        }
+
+        /* 결과 라벨 디자인 */
+        #label-container {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .prediction-item {
+            margin-bottom: 16px;
+        }
+
+        .label-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .progress-bar-bg {
+            background-color: #f1f5f9;
+            border-radius: 100px;
+            height: 10px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background-color: #4a90e2;
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 100px;
+        }
+
+        /* 푸터 스타일 */
+        footer {
+            margin-top: auto;
+            padding: 20px;
+            color: #94a3b8;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="#" class="navbar-logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></nav>
+    <ul class="navbar-menu">
+        <li><a href="https://jotaeik.github.io/portfolio/">홈</a></li>
+        <li><a href="#">사용법</a></li>
+        <li><a href="#">정보</a></li>
+    </ul>
+</nav>
+
+<div class="card">
+    <h2>이미지 인식 AI</h2>
+    <p class="subtitle">Teachable Machine을 활용한 실시간 분류</p>
+    
+    <button type="button" class="btn-start" onclick="init()">카메라 실행하기</button>
+    
+    <div id="webcam-container"></div>
+    <div id="label-container"></div>
+</div>
+
+<footer>
+    © 2024 AI Vision Lab. Powered by TensorFlow.js
+</footer>
+
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 <script type="text/javascript">
-    // More API functions here:
-    // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
-
-    // the link to your model provided by Teachable Machine export panel
     const URL = "https://teachablemachine.withgoogle.com/models/KSnK_kt8S/";
 
     let model, webcam, labelContainer, maxPredictions;
 
-    // Load the image model and setup the webcam
     async function init() {
+        // 버튼 텍스트 변경 또는 로딩 표시
+        const btn = document.querySelector('.btn-start');
+        btn.innerText = "모델 로딩 중...";
+        btn.disabled = true;
+
         const modelURL = URL + "model.json";
         const metadataURL = URL + "metadata.json";
 
-        // load the model and metadata
-        // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
-        // or files from your local hard drive
-        // Note: the pose library adds "tmImage" object to your window (window.tmImage)
         model = await tmImage.load(modelURL, metadataURL);
         maxPredictions = model.getTotalClasses();
 
-        // Convenience function to setup a webcam
-        const flip = true; // whether to flip the webcam
-        webcam = new tmImage.Webcam(200, 200, flip); // width, height, flip
-        await webcam.setup(); // request access to the webcam
+        const flip = true; 
+        webcam = new tmImage.Webcam(200, 200, flip); 
+        await webcam.setup(); 
         await webcam.play();
         window.requestAnimationFrame(loop);
 
-        // append elements to the DOM
+        btn.style.display = "none"; // 시작 후 버튼 숨김
         document.getElementById("webcam-container").appendChild(webcam.canvas);
+        
         labelContainer = document.getElementById("label-container");
-        for (let i = 0; i < maxPredictions; i++) { // and class labels
-            labelContainer.appendChild(document.createElement("div"));
+        for (let i = 0; i < maxPredictions; i++) {
+            const item = document.createElement("div");
+            item.className = "prediction-item";
+            item.innerHTML = `
+                <div class="label-info">
+                    <span class="class-name">로드 중...</span>
+                    <span class="percentage">0%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill"></div>
+                </div>
+            `;
+            labelContainer.appendChild(item);
         }
     }
 
     async function loop() {
-        webcam.update(); // update the webcam frame
+        webcam.update(); 
         await predict();
         window.requestAnimationFrame(loop);
     }
 
-    // run the webcam image through the image model
     async function predict() {
-        // predict can take in an image, video or canvas html element
         const prediction = await model.predict(webcam.canvas);
         for (let i = 0; i < maxPredictions; i++) {
-            const classPrediction =
-                prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-            labelContainer.childNodes[i].innerHTML = classPrediction;
+            const className = prediction[i].className;
+            const prob = prediction[i].probability;
+            const percentage = (prob * 100).toFixed(0);
+            
+            const item = labelContainer.childNodes[i];
+            item.querySelector(".class-name").innerText = className;
+            item.querySelector(".percentage").innerText = percentage + "%";
+            
+            const bar = item.querySelector(".progress-bar-fill");
+            bar.style.width = percentage + "%";
+            
+            // 확률에 따른 색상 변화 (강조)
+            if (prob > 0.8) {
+                bar.style.backgroundColor = "#10b981"; // 성공적인 초록색
+            } else if (prob > 0.4) {
+                bar.style.backgroundColor = "#4a90e2"; // 기본 파란색
+            } else {
+                bar.style.backgroundColor = "#cbd5e1"; // 낮은 확률 회색
+            }
         }
     }
 </script>
+
+</body>
+</html>
